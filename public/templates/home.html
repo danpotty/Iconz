@@ -1,0 +1,39 @@
+<h1>{{vm.title}}</h1>
+
+<div layout layout-align="center">
+  <md-button class="md-raised md-primary" ng-click="vm.addIcon($event);vm.addIconSFX();">Add Icon</md-button>
+  <!-- <md-button ng-click="vm.refresh();">Refresh</md-button> -->
+</div>
+<br>
+<div layout layout-align="center">
+  <p style="color:rgb(255, 255, 255);">Sort by: </p>
+  <md-button ng-class="newbutt" ng-click="vm.newest();vm.shuffle();">Newest</md-button>
+  <md-button ng-class="oldbutt" ng-click="vm.oldest();vm.shuffle();">Oldest</md-button>
+  <md-button ng-class="likebutt" ng-click="vm.mostLikes();vm.shuffle();">Most Liked</md-button>
+  <md-button ng-class="combutt" ng-click="vm.mostDiscussed();vm.shuffle();">Most Discussed</md-button>
+</div>
+<hr>
+
+
+<div>
+  <md-grid-list md-cols-gt-sm='6' md-cols-gt-md='6' md-row-height-md='1:1' md-row-height='1:1' style='margin:16px' md-gutter='4px' md-gutter-gt-md='16px' md-gutter-gt-sm='8px'>
+    <md-grid-tile ng-class="tile" ng-repeat="i in vm.icons" class="gridButton md-ink-ripple" style="background-color: {{i.color}}; border-radius: 10px 10px 10px 10px">
+      <md-grid-tile-header layout layout-align="center">
+        <md-button ui-sref="Icon({id: i._id})" ng-click="global.swoosh();">{{i.name}}</md-button>
+      </md-grid-tile-header>
+      <div layout-column>
+        <p>Likes: <strong>{{i.likes}}</strong></p>
+        <p>Posts: <strong>{{i.numComments}}</strong></p>
+      </div>
+      <br>
+      <div layout="column">
+        <md-button ng-show="global.status._id == i.createdBy._id" ng-click="vm.editModal($event, i);vm.editSound();">Edit</md-button>
+        <md-button ng-show="global.status._id == i.createdBy._id" ng-click="vm.deleteIcon(i);">Delete</md-button>
+        <md-button ng-show="global.status._id !== i.createdBy._id" ng-click="vm.like(i);">Like</md-button>
+      </div>
+      <md-grid-tile-footer layout layout-align="center">
+        <h4>posted by: {{i.createdBy.username}}&nbsp;&nbsp;</h4>
+      </md-grid-tile-footer>
+    </md-grid-tile>
+  </md-grid-list>
+</div>

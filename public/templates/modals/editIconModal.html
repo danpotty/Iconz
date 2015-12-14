@@ -1,0 +1,26 @@
+<div>
+  <md-dialog style="width:50%; text-align:center !important;" ng-cloak>
+    <md-dialog-content>
+      <md-content>
+        <form ng-submit="update();">
+          <md-input-container>
+            <label>Name</label>
+            <input type="text" maxlength="5" ng-model="icon.name" required />
+          </md-input-container>
+          <md-input-container>
+            <label>Pick your color!</label>
+              <md-select ng-model="icon.color" required >
+                <md-option ng-repeat="c in colors;" style="background-color: {{c}}" required >{{c}}</md-option>
+              </md-select>
+          </md-input-container>
+          <md-input-container>
+              <label>Background Image</label>
+              <input type="text" ng-model="icon.bgImg"/>
+          </md-input-container>
+          <md-button ng-click="submitSFX();" type="submit" class="md-raised md-primary">Submit</md-button>
+          <md-button ng-click="cancel();">Cancel</md-button>
+        </form>
+      </md-content>
+    </md-dialog-content>
+  </md-dialog>
+</div>

@@ -1,0 +1,26 @@
+body, html {
+  background-color: rgb(57, 56, 64);
+}
+
+md-toolbar {
+  background-color: rgb(102, 130, 131) !important;
+}
+
+md-toast{
+	font-size: 20px;
+	position: fixed !important;
+	background-color: rgb(76, 87, 117) !important;
+	color: #B6B9BD !important;
+}
+
+#sort {
+  background-color:rgb(102, 130, 131);
+}
+
+.regButt {
+  color: rgb(255, 255, 255);
+}
+
+.highlight {
+  background-color:rgb(102, 130, 131);
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html ng-app="app" id="html">
+<head>
+	<title>coder-camps-js</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/site.css">
+	<link rel="stylesheet" href="/css/animate.css">
+</head>
+
+<body ng-controller="GlobalController as global" id="body">
+	<md-toolbar layout>
+		<div flex="20" layout layout-align="end center">
+			<h3 ng-class="yousuck" ng-show="global.status._id">{{global.status.username}} sucks</h3>
+			<h3 ng-class="loginprompt" ng-show="!global.status._id">Log in, idiot</h3>
+		</div>
+		<span flex="20"></span>
+		<div>
+			<h1 ui-sref="Home" class="animated pulse" ng-click="global.swoosh();" style="cursor:pointer">Iconz</h1>
+		</div>
+		<span flex="20"></span>
+		<div flex="20" ng-show="!global.status._id" layout layout-align="end center">
+			<md-button ng-click="global.login($event);global.loginSFX();">Login</md-button>
+			<md-button ng-click="global.register($event);global.registerSFX();">Register</md-button>
+		</div>
+		<div flex="20" ng-show="global.status._id" layout layout-align="end center">
+			<md-button ng-click="global.swoosh();" ui-sref="Profile({id: global.status._id})">My Profile</md-button>
+			<md-button ng-click="global.logout();global.logoutSFX();" ui-sref="Home">Logout</md-button>
+		</div>
+	</md-toolbar>
+
+	<audio id="loginSFX">
+	  <source src="/sounds/Login.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="registerSFX">
+	  <source src="/sounds/Register.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="addSuccess">
+	  <source src="/sounds/whoosh_lasso.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="close">
+	  <source src="/sounds/close.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="addIconSFX">
+	  <source src="/sounds/addIcon.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="swoosh">
+		<source src="/sounds/swoosh.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="logout">
+		<source src="/sounds/door_close.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="ding">
+		<source src="/sounds/ding.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="shuffle">
+		<source src="/sounds/shuffle.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="success">
+		<source src="/sounds/success.wav" type="audio/mpeg">
+	</audio>
+	<audio id="delete">
+		<source src="/sounds/pop.wav" type="audio/mpeg">
+	</audio>
+	<audio id="like">
+		<source src="/sounds/like.wav" type="audio/mpeg">
+	</audio>
+
+
+	<ui-view></ui-view>
+	<!-- Ext Libs -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+	<script src="/javascript/app.js"></script>
+	<script src="/javascript/services/HomeFactory.js"></script>
+	<script src="/javascript/services/UserFactory.js"></script>
+	<script src="/javascript/services/CommentFactory.js"></script>
+	<script src="/javascript/controllers/GlobalController.js"></script>
+	<script src="/javascript/controllers/HomeController.js"></script>
+	<script src="/javascript/controllers/ProfileController.js"></script>
+	<script src="/javascript/controllers/IconDetailsController.js"></script>
+
+</body>
+</html>
