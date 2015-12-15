@@ -3,7 +3,7 @@
 	angular.module('app', ['ui.router', 'ngMaterial'])
 	.config(Config);
 
-	function Config($stateProvider, $urlRouterProvider) {
+	function Config($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider, $locationProvider) {
 		$stateProvider.state('Home',{
 			url: '/',
 			templateUrl: '/templates/home.html',
@@ -16,7 +16,10 @@
 			url: '/icon/:id',
 			templateUrl: '/templates/icon.html',
 			controller: 'IconDetailsController as vm'
-		});
+		})
+		$urlMatcherFactoryProvider.caseInsensitive(true);
+		$urlMatcherFactoryProvider.strictMode(false);
+		$locationProvider.html5Mode(true);
 		$urlRouterProvider.otherwise('/');
 
 	}

@@ -4,6 +4,7 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let app = express();
 let port = process.env.PORT || 3000;
+let helmet = require('helmet');
 let mongoose = require('mongoose');
 let passport = require('passport');
 require('./models/user');
@@ -25,14 +26,11 @@ app.set('view options', {
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(helmet());
 
 let userRoutes = require('./routes/userRoutes');
 let iconRoutes = require('./routes/iconRoutes');
 let commentRoutes = require('./routes/commentRoutes');
-
-app.get('/', function(req, res) {
-	res.render('index');
-});
 
 app.use('/api/v1/users/', userRoutes);
 app.use('/api/v1/icons/', iconRoutes);
@@ -40,6 +38,10 @@ app.use('/api/v1/comments/', commentRoutes);
 
 app.use((err, req, res, next) => {
 	res.status(500).send(err);
+});
+
+app.get('/*', function(req, res) {
+	res.render('index');
 });
 
 module.exports = app.listen(port, () => {
