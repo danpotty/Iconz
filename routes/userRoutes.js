@@ -8,7 +8,7 @@ let Icon = mongoose.model('Icon');
 let jwt = require('express-jwt');
 let auth = jwt({
   userProperty: 'payload',
-  secret: 'share with everyone'
+  secret: process.env.AUTH_SECRET
 });
 
 router.post('/register', (req, res, next) => {

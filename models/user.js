@@ -42,7 +42,7 @@ UserSchema.methods.generateJWT = function(){
     _id: this._id,
     email: this.local.email,
     username: this.username
-  }, 'share with everyone');
+  }, process.env.AUTH_SECRET);
 };
 
 module.exports = mongoose.model('User', UserSchema);

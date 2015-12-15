@@ -1,4 +1,5 @@
 "use strict";
+require('dotenv').load();
 let express = require('express');
 let bodyParser = require('body-parser');
 let app = express();
@@ -9,7 +10,7 @@ require('./models/user');
 require('./models/icon');
 require('./models/comment');
 require('./config/passport');
-mongoose.connect('mongodb://localhost/iconograph');
+mongoose.connect(process.env.MONGO_URI);
 
 
 app.set('views', './views');
