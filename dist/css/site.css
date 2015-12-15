@@ -1,0 +1,26 @@
+body, html {
+  background-color: #393840;
+}
+
+md-toolbar {
+  background-color: #668283 !important;
+}
+
+md-toast {
+  font-size: 20px;
+  position: fixed !important;
+  background-color: #4c5775 !important;
+  color: #B6B9BD !important;
+}
+
+#sort {
+  background-color: #668283;
+}
+
+.regButt {
+  color: white;
+}
+
+.highlight {
+  background-color: #668283;
+}

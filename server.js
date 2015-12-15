@@ -12,11 +12,14 @@ require('./models/icon');
 require('./models/comment');
 require('./config/passport');
 mongoose.connect(process.env.MONGO_URI);
+/* istanbul ignore next */
 
 
 app.set('views', './views');
 app.engine('.html', require('ejs').renderFile);
-app.use(express.static('./public'));
+
+//use .dist here(instead of public) to use minified files:
+app.use(express.static('./dist'));
 app.use(express.static('./bower_components'));
 app.set('view engine', 'html');
 app.set('view options', {
