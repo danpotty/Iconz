@@ -16,7 +16,7 @@ router.get('/:id', (req, res, next) => {
   .populate("comments")
   .exec((err, result) => {
     if(err) return next(err);
-    if(!result) next('Could not find that icon');
+    if(!result) return next('Could not find that icon');
     res.send(result);
   });
 });
@@ -31,6 +31,7 @@ router.post('/:id', auth, (req, res, next)=> {
     User.update({ _id : req.payload._id }, { $push: { comments: result._id }}, (err, user) => {
       if(err) return next(err);
       Icon.update({ _id : req.params.id }, { $push: { comments: result._id }, $inc : {"numComments":1} }, (err, icon) => {
+        result.numComments++;
         if(err) return next(err);
         res.send(result);
       });
@@ -55,6 +56,7 @@ router.delete('/:id', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   if(!req.body.message) return next('Please enter a comment');
+  console.log(req.params.id);
   Comment.update({ _id : req.params.id }, { message : req.body.message }, function(err, result) {
     if(err) return next(err);
     if(!result)return next('Comment not found');

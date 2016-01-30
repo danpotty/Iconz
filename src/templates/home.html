@@ -15,7 +15,7 @@
 <hr>
 
 
-<div>
+<div ng-show="vm.showTiles">
   <md-grid-list md-cols-gt-sm='6' md-cols-gt-md='6' md-row-height-md='1:1' md-row-height='1:1' style='margin:16px' md-gutter='4px' md-gutter-gt-md='16px' md-gutter-gt-sm='8px'>
     <md-grid-tile ng-class="tile" ng-repeat="i in vm.icons" class="gridButton md-ink-ripple" style="background-color: {{i.color}}; border-radius: 10px 10px 10px 10px">
       <md-grid-tile-header layout layout-align="center">

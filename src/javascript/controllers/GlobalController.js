@@ -9,7 +9,6 @@
     vm.user = {};
     vm.status = UserFactory.status;
 
-
     vm.register = function(go) {
       $mdDialog.show({
         controller: LogRegController,

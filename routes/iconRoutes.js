@@ -60,7 +60,7 @@ router.post('/', auth, (req, res, next) => {
   icon.save((err, result) => {
     if(err) return next(err);
     if(!result) return next("Could not create icon");
-    User.update({ _id : req.payload._id }, { $push: { posts : result._id }}, (err, user) => {
+    User.update({ _id : req.payload._id }, { $push: { icons : result._id }}, (err, user) => {
       if(err) return next(err);
       if(!user) return next("Could not add icon to user model");
       res.send(result);
@@ -79,7 +79,7 @@ router.delete('/:id', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  Icon.update({ _id : req.params.id }, req.body, function(err, result) {
+  Icon.update({ _id : req.params.id }, req.body, (err, result) => {
     if(err) return next(err);
     if(!result) return next('Icon not found');
     res.send(result);

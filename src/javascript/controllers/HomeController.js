@@ -8,6 +8,7 @@
 	function HomeController($scope, $state, HomeFactory, UserFactory, $mdDialog, $mdToast) {
 		var vm = this;
 		vm.icon = {};
+		vm.showTiles = true;
 
 		HomeFactory.getAllIcons().then(function(res) {
 				vm.icons = res;
@@ -143,12 +144,13 @@
 			$scope.likebutt = "regButt";
 			$scope.combutt = "regButt";
 			setTimeout(function(){
-				vm.icons = null;
+				vm.showTiles = false;
 			}, 250);
 			setTimeout(function(){
 				HomeFactory.getAllIcons().then(function(res) {
 					vm.icons = res;
 					$scope.tile = "animated bounceIn";
+					vm.showTiles = true;
 				});
 			}, 500);
 		};

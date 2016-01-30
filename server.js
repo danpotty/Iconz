@@ -11,7 +11,7 @@ require('./models/user');
 require('./models/icon');
 require('./models/comment');
 require('./config/passport');
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect('mongodb://localhost/iconograph');
 /* istanbul ignore next */
 
 
