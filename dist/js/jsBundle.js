@@ -26,6 +26,202 @@
 
 (function () {
     'use strict';
+    angular.module('app').factory('CommentFactory', CommentFactory);
+
+    function CommentFactory($http, $q, $window) {
+        var o = {};
+
+        o.getIconById = function (id) {
+            var q = $q.defer();
+            $http.get('/api/v1/comments/' + id).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.addComment = function (id, comment) {
+            var q = $q.defer();
+            $http.post('/api/v1/comments/' + id, comment, {
+                headers: {
+                    authorization: "Bearer " + $window.localStorage.getItem('token')
+                }
+            }).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.deleteComment = function (id) {
+            var q = $q.defer();
+            $http.delete('/api/v1/comments/' + id).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.editCom = function (newCom, oldCom) {
+            var q = $q.defer();
+            $http.put('/api/v1/comments/' + oldCom._id, newCom).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        return o;
+    }
+})();
+
+(function () {
+    'use strict';
+    angular.module('app').factory('HomeFactory', HomeFactory);
+
+    function HomeFactory($http, $q, $window) {
+        var o = {};
+
+        o.getAllIcons = function () {
+            var q = $q.defer();
+            $http.get('/api/v1/icons').then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        }
+
+        o.addIcon = function (icon) {
+            var q = $q.defer();
+            $http.post('/api/v1/icons', icon, {
+                headers: {
+                    authorization: "Bearer " + $window.localStorage.getItem("token")
+                }
+            }).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.deleteIcon = function (id) {
+            var q = $q.defer();
+            $http.delete('/api/v1/icons/' + id).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.updateIcon = function (newIcon, oldIcon) {
+            var q = $q.defer();
+            $http.put('/api/v1/icons/' + oldIcon._id, newIcon).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.like = function (id) {
+            var q = $q.defer();
+            $http.put('/api/v1/icons/like/' + id, null, {
+                headers: {
+                    authorization: "Bearer " + $window.localStorage.getItem('token')
+                }
+            }).then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.refresh = function () {
+            var q = $q.defer();
+            $http.put('/api/v1/icons/refresh').then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        //------------------------------------------------------
+        //------------------SORTING FUNCTIONS-------------------
+        //------------------------------------------------------
+        o.mostLikes = function () {
+            var q = $q.defer();
+            $http.get('/api/v1/icons/mostLikes').then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.mostDiscussed = function () {
+            var q = $q.defer();
+            $http.get('/api/v1/icons/mostDiscussed').then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.oldest = function () {
+            var q = $q.defer();
+            $http.get('/api/v1/icons/oldest').then(function (res) {
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        return o;
+    }
+})();
+
+(function () {
+    'use strict';
+    angular.module('app').factory('UserFactory', UserFactory);
+
+    function UserFactory($http, $q, $window) {
+        var o = {};
+        o.status = {};
+
+        o.register = function (user) {
+            var q = $q.defer();
+            $http.post('/api/v1/users/register', user).then(function (res) {
+                o.setToken(res.data.token);
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.login = function (user) {
+            var q = $q.defer();
+            $http.post('/api/v1/users/login', user).then(function (res) {
+                o.setToken(res.data.token);
+                q.resolve(res.data);
+            });
+            return q.promise;
+        };
+
+        o.getToken = function () {
+            return $window.localStorage.getItem('token');
+        };
+
+        o.setToken = function (token) {
+            $window.localStorage.setItem('token', token);
+            o.setUser();
+        };
+
+        o.removeToken = function () {
+            $window.localStorage.removeItem('token');
+            o.status._id = null;
+            o.status.email = null;
+            o.status.username = null;
+        };
+
+        o.setUser = function () {
+            var token = JSON.parse(atob(o.getToken().split('.')[1]));
+            o.status._id = token._id;
+            o.status.email = token.email;
+            o.status.username = token.username;
+        };
+
+        if (o.getToken()) o.setUser();
+
+        return o;
+    }
+})();
+
+(function () {
+    'use strict';
     angular.module('app').controller('GlobalController', GlobalController).controller('LogRegController', LogRegController);
 
     function GlobalController(UserFactory, $state, $mdDialog, $scope, $animate) {
@@ -442,201 +638,5 @@
         var vm = this;
 
 
-    }
-})();
-
-(function () {
-    'use strict';
-    angular.module('app').factory('CommentFactory', CommentFactory);
-
-    function CommentFactory($http, $q, $window) {
-        var o = {};
-
-        o.getIconById = function (id) {
-            var q = $q.defer();
-            $http.get('/api/v1/comments/' + id).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.addComment = function (id, comment) {
-            var q = $q.defer();
-            $http.post('/api/v1/comments/' + id, comment, {
-                headers: {
-                    authorization: "Bearer " + $window.localStorage.getItem('token')
-                }
-            }).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.deleteComment = function (id) {
-            var q = $q.defer();
-            $http.delete('/api/v1/comments/' + id).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.editCom = function (newCom, oldCom) {
-            var q = $q.defer();
-            $http.put('/api/v1/comments/' + oldCom._id, newCom).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        return o;
-    }
-})();
-
-(function () {
-    'use strict';
-    angular.module('app').factory('HomeFactory', HomeFactory);
-
-    function HomeFactory($http, $q, $window) {
-        var o = {};
-
-        o.getAllIcons = function () {
-            var q = $q.defer();
-            $http.get('/api/v1/icons').then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        }
-
-        o.addIcon = function (icon) {
-            var q = $q.defer();
-            $http.post('/api/v1/icons', icon, {
-                headers: {
-                    authorization: "Bearer " + $window.localStorage.getItem("token")
-                }
-            }).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.deleteIcon = function (id) {
-            var q = $q.defer();
-            $http.delete('/api/v1/icons/' + id).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.updateIcon = function (newIcon, oldIcon) {
-            var q = $q.defer();
-            $http.put('/api/v1/icons/' + oldIcon._id, newIcon).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.like = function (id) {
-            var q = $q.defer();
-            $http.put('/api/v1/icons/like/' + id, null, {
-                headers: {
-                    authorization: "Bearer " + $window.localStorage.getItem('token')
-                }
-            }).then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.refresh = function () {
-            var q = $q.defer();
-            $http.put('/api/v1/icons/refresh').then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        //------------------------------------------------------
-        //------------------SORTING FUNCTIONS-------------------
-        //------------------------------------------------------
-        o.mostLikes = function () {
-            var q = $q.defer();
-            $http.get('/api/v1/icons/mostLikes').then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.mostDiscussed = function () {
-            var q = $q.defer();
-            $http.get('/api/v1/icons/mostDiscussed').then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.oldest = function () {
-            var q = $q.defer();
-            $http.get('/api/v1/icons/oldest').then(function (res) {
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        return o;
-    }
-})();
-
-(function () {
-    'use strict';
-    angular.module('app').factory('UserFactory', UserFactory);
-
-    function UserFactory($http, $q, $window) {
-        var o = {};
-        o.status = {};
-
-        o.register = function (user) {
-            var q = $q.defer();
-            $http.post('/api/v1/users/register', user).then(function (res) {
-                o.setToken(res.data.token);
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.login = function (user) {
-            var q = $q.defer();
-            $http.post('/api/v1/users/login', user).then(function (res) {
-                o.setToken(res.data.token);
-                q.resolve(res.data);
-            });
-            return q.promise;
-        };
-
-        o.getToken = function () {
-            return $window.localStorage.getItem('token');
-        };
-
-        o.setToken = function (token) {
-            $window.localStorage.setItem('token', token);
-            o.setUser();
-        };
-
-        o.removeToken = function () {
-            $window.localStorage.removeItem('token');
-            o.status._id = null;
-            o.status.email = null;
-            o.status.username = null;
-        };
-
-        o.setUser = function () {
-            var token = JSON.parse(atob(o.getToken().split('.')[1]));
-            o.status._id = token._id;
-            o.status.email = token.email;
-            o.status.username = token.username;
-        };
-
-        if (o.getToken()) o.setUser();
-
-        return o;
     }
 })();

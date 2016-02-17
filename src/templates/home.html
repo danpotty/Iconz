@@ -22,8 +22,8 @@
         <md-button ui-sref="Icon({id: i._id})" ng-click="global.swoosh();">{{i.name}}</md-button>
       </md-grid-tile-header>
       <div layout-column>
-        <p>Likes: <strong>{{i.likes}}</strong></p>
-        <p>Posts: <strong>{{i.numComments}}</strong></p>
+        <p>Likes: <strong>{{i.likers.length}}</strong></p>
+        <p>Posts: <strong>{{i.comments.length}}</strong></p>
       </div>
       <br>
       <div layout="column">
