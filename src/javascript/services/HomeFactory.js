@@ -51,42 +51,6 @@
 			return q.promise;
 		};
 
-		o.refresh = function() {
-			var q = $q.defer();
-			$http.put('/api/v1/icons/refresh').then(function(res) {
-				q.resolve(res.data);
-			});
-			return q.promise;
-		};
-
-		//------------------------------------------------------
-		//------------------SORTING FUNCTIONS-------------------
-		//------------------------------------------------------
-
-		o.mostLikes = function() {
-			var q = $q.defer();
-			$http.get('/api/v1/icons/mostLikes').then(function(res) {
-				q.resolve(res.data);
-			});
-			return q.promise;
-		};
-
-		o.mostDiscussed = function() {
-			var q = $q.defer();
-			$http.get('/api/v1/icons/mostDiscussed').then(function(res) {
-				q.resolve(res.data);
-			});
-			return q.promise;
-		};
-
-		o.oldest = function() {
-			var q = $q.defer();
-			$http.get('/api/v1/icons/oldest').then(function(res) {
-				q.resolve(res.data);
-			});
-			return q.promise;
-		};
-
 		return o;
 	}
 })();

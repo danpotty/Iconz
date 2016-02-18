@@ -20,36 +20,6 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/mostLikes', (req, res, next) => {
-  Icon.find({})
-  .populate("createdBy", "username")
-  .sort("-likes")
-  .exec((err, result) => {
-    if(err) return next(err);
-    res.send(result);
-  });
-});
-
-router.get('/mostDiscussed', (req, res, next) => {
-  Icon.find({})
-  .populate("createdBy", "username")
-  .sort("-numComments")
-  .exec((err, result) => {
-    if(err) return next(err);
-    res.send(result);
-  });
-});
-
-router.get('/oldest', (req, res, next) => {
-  Icon.find({})
-  .populate("createdBy", "username")
-  .sort("dateCreated")
-  .exec((err, result) => {
-    if(err) return next(err);
-    res.send(result);
-  });
-});
-
 router.post('/', auth, (req, res, next) => {
   let icon = new Icon(req.body);
   icon.name = req.body.name.toUpperCase();
@@ -82,14 +52,6 @@ router.put('/:id', (req, res, next) => {
   Icon.update({ _id : req.params.id }, req.body, function(err, result) {
     if(err) return next(err);
     if(!result) return next('Icon not found');
-    res.send(result);
-  });
-});
-
-router.put('/refresh', (req, res, next) => {
-  Icon.update({}).exec((err, result) => {
-    result.numComments = result.comments.length;
-    result.likes = result.likers.length;
     res.send(result);
   });
 });

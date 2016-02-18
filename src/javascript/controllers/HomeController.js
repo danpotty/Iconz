@@ -17,15 +17,6 @@
 				$scope.combutt = "regButt";
 		});
 
-		vm.refresh = function() {
-			HomeFactory.refresh().then(function(res) {
-				HomeFactory.getAllIcons.then(function(res) {
-					vm.icons = res;
-				});
-			});
-		};
-
-
 		vm.addIcon = function(hi) {
 			$mdDialog.show({
 				controller: ModalController,
@@ -137,71 +128,45 @@
 
 
 		vm.newest = function() {
-			$scope.tile = "animated bounceOut";
+			// $scope.tile = "animated bounceOut";
 			$scope.newbutt = "animated swing highlight regButt";
 			$scope.oldbutt = "regButt";
 			$scope.likebutt = "regButt";
 			$scope.combutt = "regButt";
-			setTimeout(function(){
-				vm.icons = null;
-			}, 250);
-			setTimeout(function(){
-				HomeFactory.getAllIcons().then(function(res) {
-					vm.icons = res;
-					$scope.tile = "animated bounceIn";
-				});
-			}, 500);
+			vm.icons.sort(function(a, b) {
+  			return new Date(b.dateCreated) - new Date(a.dateCreated);
+			});
 		};
 
 		vm.oldest = function() {
-			$scope.tile = "animated bounceOut";
+			// $scope.tile = "animated bounceOut";
 			$scope.newbutt = "regButt";
 			$scope.oldbutt = "animated swing highlight regButt";
 			$scope.likebutt = "regButt";
 			$scope.combutt = "regButt";
-			setTimeout(function(){
-				vm.icons = null;
-			}, 250);
-			setTimeout(function(){
-				HomeFactory.mostDiscussed().then(function(res) {
-					vm.icons = res;
-					$scope.tile = "animated bounceIn";
-				});
-			}, 500);
+			vm.icons.sort(function(a, b) {
+  			return new Date(a.dateCreated) - new Date(b.dateCreated);
+			});
 		};
 
 		vm.mostLikes = function() {
-			$scope.tile = "animated bounceOut";
 			$scope.newbutt = "regButt";
 			$scope.oldbutt = "regButt";
 			$scope.likebutt = "animated swing highlight regButt";
 			$scope.combutt = "regButt";
-			setTimeout(function(){
-				vm.icons = null;
-			}, 250);
-			setTimeout(function(){
-				HomeFactory.mostLikes().then(function(res) {
-					vm.icons = res;
-					$scope.tile = "animated bounceIn";
-				});
-			}, 500);
+			vm.icons.sort(function(a, b) {
+				return b.likers.length - a.likers.length;
+			});
 		};
 
 		vm.mostDiscussed = function() {
-			$scope.tile = "animated bounceOut";
 			$scope.newbutt = "regButt";
 			$scope.oldbutt = "regButt";
 			$scope.likebutt = "regButt";
 			$scope.combutt = "animated swing highlight regButt";
-			setTimeout(function(){
-				vm.icons = null;
-			}, 250);
-			setTimeout(function(){
-				HomeFactory.mostDiscussed().then(function(res) {
-					vm.icons = res;
-					$scope.tile = "animated bounceIn";
-				});
-			}, 500);
+			vm.icons.sort(function(a, b) {
+				return b.comments.length - a.comments.length;
+			});
 		};
 
 
